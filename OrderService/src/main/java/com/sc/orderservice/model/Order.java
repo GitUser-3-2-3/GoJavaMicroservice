@@ -58,6 +58,6 @@ public class Order {
       }
 
       public enum OrderStatus {
-            CREATED, PENDING, PREPARING, COMPLETED, FULFILLED
+            PENDING, PAID, PREPARING, COMPLETED, FULFILLED
       }
 }
