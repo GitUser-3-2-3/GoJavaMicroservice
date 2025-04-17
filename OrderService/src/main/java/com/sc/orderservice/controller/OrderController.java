@@ -24,18 +24,21 @@ public class OrderController {
       @GetMapping("/{orderId}")
       public ResponseEntity<Order> getOrderById(@PathVariable String orderId) {
             log.info("Fetching order by id: {}", orderId);
+
             return ResponseEntity.ok(orderService.getOrderById(orderId));
       }
 
       @GetMapping("/customer/{customerId}")
       public ResponseEntity<List<Order>> getOrdersByCustomerId(@PathVariable String customerId) {
             log.info("Fetching orders by customer id: {}", customerId);
+
             return ResponseEntity.ok(orderService.getOrdersByCustomerId(customerId));
       }
 
       @PostMapping
       public ResponseEntity<Order> createOrder(@Valid @RequestBody Order order) {
             log.info("Creating order for customer: {}", order.getCustomerId());
+
             Order createdOrder = orderService.createOrder(order);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
       }
@@ -43,6 +46,7 @@ public class OrderController {
       @PostMapping("/{orderId}/payment")
       public ResponseEntity<Order> processPayment(@PathVariable String orderId) {
             log.info("Processing payment for order: {}", orderId);
+
             Order processedOrder = orderService.processPayment(orderId);
             return ResponseEntity.ok(processedOrder);
       }
@@ -51,6 +55,7 @@ public class OrderController {
       public ResponseEntity<Order> updateOrderStatus(@PathVariable String id,
                                                      @RequestParam Order.OrderStatus status) {
             log.info("Updating order {} status to: {}", id, status);
+
             Order updatedOrder = orderService.updateOrderStatus(id, status);
             return ResponseEntity.ok(updatedOrder);
       }
