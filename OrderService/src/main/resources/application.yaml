@@ -1,1 +1,39 @@
-spring.application.name=OrderService
+server:
+  port: 8080
+  shutdown: graceful
+
+spring:
+  application:
+    name: order-service
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:ordersdb}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:Qwerty1,0*}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 2000
+      maximum-pool-size: 10
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: false
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  jackson:
+    default-property-inclusion: non_null
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+
+payment:
+  service:
+    url: ${PAYMENT_SERVICE_URL:http://localhost:4000}
+
+logging:
+  level:
+    root: info
+    com.sc.orderservice: debug
+    org.hibernate.sql: info

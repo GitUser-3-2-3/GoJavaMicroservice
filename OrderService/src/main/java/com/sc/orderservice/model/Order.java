@@ -35,7 +35,6 @@ public class Order {
       @Positive
       private BigDecimal totalAmount;
 
-      @NotNull
       private LocalDateTime createdAt;
 
       @ElementCollection
