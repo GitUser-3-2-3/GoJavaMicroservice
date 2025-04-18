@@ -1,4 +1,4 @@
-package repository
+package data
 
 import (
 	"errors"
@@ -17,7 +17,7 @@ type Payment struct {
 	ID          string    `json:"paymentId" db:"id"`
 	OrderID     string    `json:"orderId" db:"order_id"`
 	CustomerID  string    `json:"customerId" db:"customer_id"`
-	Amount      int       `json:"amount" db:"amount"`
+	Amount      float64   `json:"amount" db:"amount"`
 	Currency    string    `json:"currency" db:"currency"`
 	Status      string    `json:"status" db:"status"`
 	ProcessedAt time.Time `json:"processedAt" db:"processed_at"`
@@ -27,10 +27,10 @@ type Payment struct {
 }
 
 type PaymentRequest struct {
-	OrderID    string `json:"orderId" validate:"required"`
-	CustomerID string `json:"customerId" validate:"required"`
-	Amount     int    `json:"amount" validate:"required,gt=0"`
-	Currency   string `json:"currency" validate:"required,len=3"`
+	OrderID    string  `json:"orderId" validate:"required"`
+	CustomerID string  `json:"customerId" validate:"required"`
+	Amount     float64 `json:"amount" validate:"required,gt=0"`
+	Currency   string  `json:"currency" validate:"required,len=3"`
 }
 
 type PaymentResponse struct {
