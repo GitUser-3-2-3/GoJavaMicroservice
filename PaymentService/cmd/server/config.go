@@ -1,4 +1,4 @@
-package config
+package main
 
 import (
 	"fmt"
@@ -21,14 +21,15 @@ type ServerConfig struct {
 }
 
 type DBConfig struct {
-	Host     string
-	Port     int
-	User     string
-	Password string
-	DBName   string
-	SSLMode  string
-	MaxConns int
-	Timeout  time.Duration
+	Host         string
+	Port         int
+	User         string
+	Password     string
+	DBName       string
+	SSLMode      string
+	MaxConns     int
+	MaxIdleConns int
+	Timeout      time.Duration
 }
 
 func Load() (*Config, error) {
@@ -40,13 +41,14 @@ func Load() (*Config, error) {
 			IdleTimeoutSecs:  getEnvAsInt("SERVER_IDLE_TIMEOUT", 120),
 		},
 		DB: DBConfig{
-			Host:     getEnv("DB_HOST", "localhost"),
-			Port:     getEnvAsInt("DB_PORT", 5432),
-			User:     getEnv("DB_USER", "postgres"),
-			Password: getEnv("DB_PASSWORD", "Qwerty1,0*"),
-			DBName:   getEnv("DB_NAME", "payments_db"),
-			SSLMode:  getEnv("DB_SSL_MODE", "disable"),
-			MaxConns: getEnvAsInt("DB_MAX_CONNS", 10),
+			Host:         getEnv("DB_HOST", "localhost"),
+			Port:         getEnvAsInt("DB_PORT", 5432),
+			User:         getEnv("DB_USER", "postgres"),
+			Password:     getEnv("DB_PASSWORD", "Qwerty1,0*"),
+			DBName:       getEnv("DB_NAME", "payments_db"),
+			SSLMode:      getEnv("DB_SSL_MODE", "disable"),
+			MaxConns:     getEnvAsInt("DB_MAX_CONNS", 10),
+			MaxIdleConns: getEnvAsInt("DB_MAX_IDLE_CONNS", 10),
 			Timeout: time.Duration(
 				getEnvAsInt("DB_TIMEOUT_SECS", 10) * int(time.Second)),
 		},
