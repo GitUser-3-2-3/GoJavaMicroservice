@@ -13,8 +13,7 @@ import (
 )
 
 var (
-	ErrPaymentFailed   = errors.New("payment processing failed")
-	ErrPaymentNotFound = errors.New("payment not found")
+	ErrPaymentFailed = errors.New("payment processing failed")
 )
 
 type PaymentModel interface {
@@ -37,7 +36,7 @@ func (ps *PaymentService) ProcessPayment(ctx context.Context, req data.PaymentRe
 		Str("customer_id", req.CustomerID).Float64("amount", req.Amount).Logger()
 
 	existingPayment, err := ps.mdl.GetByOrderID(ctx, req.OrderID)
-	if err != nil {
+	if err != nil && !errors.Is(err, data.ErrRecordNotFound) {
 		logger.Error().Err(err).Msg("Error getting existing payment")
 		return nil, fmt.Errorf("failed to check existing payment: %w", err)
 	}
@@ -102,7 +101,7 @@ func (ps *PaymentService) GetPaymentByOrderId(ctx context.Context, id string) (*
 	return payment, nil
 }
 
-func (ps *PaymentService) simulatePaymentProcessing(req data.PaymentRequest) (bool, string) {
+func (ps *PaymentService) simulatePaymentProcessing(_ data.PaymentRequest) (bool, string) {
 	time.Sleep(time.Duration(100+rand.Intn(200)) * time.Millisecond)
 
 	if rand.Float64() < 0.95 {
